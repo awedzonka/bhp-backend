@@ -1,0 +1,42 @@
+version: '3.5'
+services:
+  bhp-backend-mariadb:
+    image: mysql:5.7
+    hostname: bhp-backend-MARIADB
+    ports:
+      - "3720:3306"
+    volumes:
+      - db-data-bhp-backend:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=awedzonka
+      - MYSQL_USER=awedzonka
+      - MYSQL_PASSWORD=awedzonka
+      - MYSQL_DATABASE=awedzonka
+
+  bhp-backend-java:
+    build:
+      context: ./
+      dockerfile: config/docker/java/Dockerfile
+    volumes:
+      - .:/var/www/bhp-backend
+      - ~/.m2:/home/vagrant/.m2
+    env_file:
+      - .env
+      - .env.prod
+      - .env.local
+    ports:
+      - "8030:8000"
+
+  bhp-backend-redis:
+    image: redis:6-alpine
+    hostname: bhp-backend-REDIS
+    ports:
+      - "6390:6379"
+
+networks:
+  default:
+    external:
+      name: awedzonka
+
+volumes:
+  db-data-bhp-backend:
