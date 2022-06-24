@@ -1,0 +1,44 @@
+server:
+  port: 8000
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+    #spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://bhp-backend-mariadb:3306/awedzonka?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: awedzonka
+    password: awedzonka
+    driver-class-name: com.mysql.jdbc.Driver
+    #hikariCP
+    hikari:
+      max-lifetime: 300000
+      connectionTimeout: 20000
+      idleTimeout: 200000
+      minimum-idle: 5
+      maximum-pool-size: 12
+      auto-commit: true
+
+
+#---
+#spring:
+#  profiles: test
+#  datasource:
+#    url: jdbc:mysql://${KREDYTMARKET_DATABASE_URL}/test?useUnicode=yes&characterEncoding=UTF-8
+#    username: ${KREDYTMARKET_DB_USER}
+#    password: ${KREDYTMARKET_DB_PASSWORD}
+#    driver-class-name: com.mysql.jdbc.Driver
+#logging
+#logging:
+#  level:
+#    root: INFO
+#  file:
+#    name: /var/www/bhp-backend/requests/logs/bhpBackend.log
+#  logback:
+#    rolling policy:
+#      max-file-size: 10MB
