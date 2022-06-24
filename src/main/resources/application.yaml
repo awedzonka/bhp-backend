@@ -14,7 +14,7 @@ spring:
     url: jdbc:mysql://bhp-backend-mariadb:3306/awedzonka?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: awedzonka
     password: awedzonka
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     #hikariCP
     hikari:
       max-lifetime: 300000
@@ -29,10 +29,10 @@ spring:
 #spring:
 #  profiles: test
 #  datasource:
-#    url: jdbc:mysql://${KREDYTMARKET_DATABASE_URL}/test?useUnicode=yes&characterEncoding=UTF-8
-#    username: ${KREDYTMARKET_DB_USER}
-#    password: ${KREDYTMARKET_DB_PASSWORD}
-#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://bhp-backend-mariadb:3306/awedzonka?useUnicode=yes&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+#    username: awedzonka
+#    password: awedzonka
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 #logging
 #logging:
 #  level:
