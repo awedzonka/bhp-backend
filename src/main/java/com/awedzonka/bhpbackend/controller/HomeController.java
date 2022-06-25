@@ -2,7 +2,7 @@ package com.awedzonka.bhpbackend.controller;
 
 import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
-import com.awedzonka.bhpbackend.service.GeneralResponse;
+import com.awedzonka.bhpbackend.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,13 @@ public class HomeController {
 
     private final GsonProvider gsonProvider;
     private final LoggerService loggerService;
+    private final HomeService homeService;
 
     @GetMapping("/homePage")
-    public ResponseEntity<String> lp() {
+    public ResponseEntity<String> homePage() {
         loggerService.info("homePage");
-        String message = gsonProvider.get().toJson(new GeneralResponse("Wiadomosc testowa"));
+        String message = gsonProvider.get().toJson(homeService.homePage());
+        loggerService.info(message);
         return new ResponseEntity<>(message, HttpStatus.valueOf(200));
     }
 

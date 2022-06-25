@@ -7,6 +7,7 @@ services:
       - "3720:3306"
     volumes:
       - db-data-bhp-backend:/var/lib/mysql
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
     environment:
       - MYSQL_ROOT_PASSWORD=awedzonka
       - MYSQL_USER=awedzonka
