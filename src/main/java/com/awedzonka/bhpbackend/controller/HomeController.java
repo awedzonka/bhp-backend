@@ -19,15 +19,27 @@ public class HomeController {
 
     @GetMapping("/homePage")
     public ResponseEntity<String> homePage() {
-        loggerService.info("homePage");
+        loggerService.info("/homePage");
         String message = gsonProvider.get().toJson(homeService.homePage());
         loggerService.info(message);
         return new ResponseEntity<>(message, HttpStatus.valueOf(200));
     }
 
 
-    @GetMapping("/home")
-    public ResponseEntity<String> home() {
-        return new ResponseEntity<>("Body", HttpStatus.valueOf(200));
+    @GetMapping("/aboutUs")
+    public ResponseEntity<String> aboutUs() {
+        loggerService.info("/aboutUs");
+        String message = gsonProvider.get().toJson(homeService.aboutUs());
+        loggerService.info(message);
+
+        return new ResponseEntity<>(message, HttpStatus.valueOf(200));
+    }
+
+    @GetMapping("/registration")
+    public ResponseEntity<String> registration() {
+        loggerService.info("/registration");
+        String message = gsonProvider.get().toJson(homeService.registration());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, HttpStatus.valueOf(200));
     }
 }

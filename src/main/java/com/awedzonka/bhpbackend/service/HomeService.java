@@ -13,4 +13,12 @@ public class HomeService {
     public GeneralResponse homePage() {
         return generalResponseFactory.getHomePageResponse();
     }
+
+    public GeneralResponse aboutUs() {
+        return generalResponseFactory.getAboutUsResponse();
+    }
+
+    public GeneralResponse registration() {
+        return generalResponseFactory.getRegistrationResponse();
+    }
 }
