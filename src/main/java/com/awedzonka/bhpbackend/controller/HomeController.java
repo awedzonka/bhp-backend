@@ -4,7 +4,9 @@ import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
 import com.awedzonka.bhpbackend.service.HomeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +24,7 @@ public class HomeController {
         loggerService.info("/homePage");
         String message = gsonProvider.get().toJson(homeService.homePage());
         loggerService.info(message);
-        return new ResponseEntity<>(message, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
 
@@ -32,7 +34,7 @@ public class HomeController {
         String message = gsonProvider.get().toJson(homeService.aboutUs());
         loggerService.info(message);
 
-        return new ResponseEntity<>(message, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
     @GetMapping("/registration")
@@ -40,6 +42,13 @@ public class HomeController {
         loggerService.info("/registration");
         String message = gsonProvider.get().toJson(homeService.registration());
         loggerService.info(message);
-        return new ResponseEntity<>(message, HttpStatus.valueOf(200));
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    private HttpHeaders buildHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Access-Control-Allow-Origin", "*");
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }
