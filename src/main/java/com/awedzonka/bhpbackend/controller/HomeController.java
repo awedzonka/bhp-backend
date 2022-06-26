@@ -3,13 +3,17 @@ package com.awedzonka.bhpbackend.controller;
 import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
 import com.awedzonka.bhpbackend.lib.Sleep;
+import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.service.HomeService;
+import com.awedzonka.bhpbackend.validator.RegistrationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,9 +44,17 @@ public class HomeController {
     }
 
     @GetMapping("/registration")
-    public ResponseEntity<String> registration() {
+    public ResponseEntity<String> registrationGet() {
         loggerService.info("/registration");
-        String message = gsonProvider.get().toJson(homeService.registration());
+        String message = gsonProvider.get().toJson(homeService.registrationGet());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<String> registrationPost(@Validated(RegistrationValidator.class) User user) {
+        loggerService.info("/registrationPost");
+        String message = gsonProvider.get().toJson(homeService.registrationPost(user));
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
