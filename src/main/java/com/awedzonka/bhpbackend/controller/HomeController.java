@@ -2,6 +2,7 @@ package com.awedzonka.bhpbackend.controller;
 
 import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
+import com.awedzonka.bhpbackend.lib.Sleep;
 import com.awedzonka.bhpbackend.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ public class HomeController {
         loggerService.info("/homePage");
         String message = gsonProvider.get().toJson(homeService.homePage());
         loggerService.info(message);
+        new Sleep().run(1500);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
