@@ -124,6 +124,13 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.3.20.Final</version>
         </dependency>
+
+        <!--        https://docs.redis.com/latest/rs/references/client_references/client_java/-->
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>3.2.Final</version>
+        </dependency>
     </dependencies>
 
 
