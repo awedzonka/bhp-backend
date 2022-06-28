@@ -1,5 +1,6 @@
 package com.awedzonka.bhpbackend.service;
 
+import com.awedzonka.bhpbackend.lib.ValidatorProvider;
 import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.service.generalresponse.GeneralResponse;
 import com.awedzonka.bhpbackend.service.generalresponse.fields.ContentPage;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import java.util.Set;
 public class GeneralResponseFactory {
 
     private final UserService userService;
-    private final Validator validator;
+    private final ValidatorProvider validatorProvider;
 
     public GeneralResponse getHomePageResponse() {
         return new GeneralResponse(
@@ -44,21 +44,23 @@ public class GeneralResponseFactory {
     public GeneralResponse getRegistrationPostResponse(User user) {
         GeneralResponse generalResponse = new GeneralResponse(
             new ContentPage("Rejestracja konta", null));
+        generalResponse.getCustomer().getRegistration().setStatusRegistration(400);
 
-        String message = userService.checkLoginAndPassword(user);
-        if (!"registrationSuccess".equals(message)) {
-            generalResponse.getCustomer().getRegistration().setGeneralErrorMessage(message);
-            generalResponse.getCustomer().getRegistration().setStatusRegistration(400);
-
-
-            return generalResponse;
-        }
-
-        Set<ConstraintViolation<User>> violations = validator.validate(user, RegistrationValidator.class);
+        Set<ConstraintViolation<User>> violations = validatorProvider
+            .getValidator()
+            .validate(user, RegistrationValidator.class);
         if (!violations.isEmpty()) {
             for (ConstraintViolation<User> constraintViolation : violations) {
                 generalResponse.getCustomer().getRegistration().addError(String.valueOf(constraintViolation.getPropertyPath()), constraintViolation.getMessage());
             }
+            return generalResponse;
+        }
+
+        String message = userService.checkLoginAndPassword(user);
+        if (!"registrationSuccess".equals(message)) {
+            generalResponse.getCustomer().getRegistration().setGeneralErrorMessage(message);
+
+
             return generalResponse;
         }
 

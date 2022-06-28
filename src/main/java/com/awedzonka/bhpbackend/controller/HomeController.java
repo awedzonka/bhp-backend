@@ -5,15 +5,14 @@ import com.awedzonka.bhpbackend.lib.LoggerService;
 import com.awedzonka.bhpbackend.lib.Sleep;
 import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.service.HomeService;
-import com.awedzonka.bhpbackend.validator.RegistrationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -52,7 +51,7 @@ public class HomeController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registrationPost(@Validated(RegistrationValidator.class) User user) {
+    public ResponseEntity<String> registrationPost(@RequestBody User user) {
         loggerService.info("/registrationPost");
         String message = gsonProvider.get().toJson(homeService.registrationPost(user));
         loggerService.info(message);

@@ -1,10 +1,10 @@
 package com.awedzonka.bhpbackend.model;
 
 
-
 import com.awedzonka.bhpbackend.utils.BCrypt;
 import com.awedzonka.bhpbackend.validator.EditValidator;
 import com.awedzonka.bhpbackend.validator.RegistrationValidator;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@ToString
 public class User {
 
     private static final String MESSAGE_NOT_BLANK = "Pole nie może być puste";
