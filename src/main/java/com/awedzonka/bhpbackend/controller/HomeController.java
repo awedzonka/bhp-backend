@@ -50,10 +50,11 @@ public class HomeController {
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
-    @PostMapping("/registration")
-    public ResponseEntity<String> registrationPost(@RequestBody User user) {
+    @PostMapping(value = "/registration")
+    public ResponseEntity<String> registrationPost(@RequestBody String user) {
+        User userObject = gsonProvider.get().fromJson(user, User.class);
         loggerService.info("/registrationPost");
-        String message = gsonProvider.get().toJson(homeService.registrationPost(user));
+        String message = gsonProvider.get().toJson(homeService.registrationPost(userObject));
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
