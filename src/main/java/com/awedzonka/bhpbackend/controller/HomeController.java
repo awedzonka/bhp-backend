@@ -10,10 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,6 +45,20 @@ public class HomeController {
         String message = gsonProvider.get().toJson(homeService.registrationGet());
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @RequestMapping(path = "/registration", method = RequestMethod.OPTIONS)
+    public ResponseEntity<String> registrationOptions(@RequestBody String user) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Access-Control-Allow-Origin", "*");
+        httpHeaders.add("Access-Control-Request-Method", "POST");
+        httpHeaders.add("Access-Control-Allow-Methods", "POST");
+        httpHeaders.add("Access-Control-Allow-Headers", "X-CUSTOM");
+        httpHeaders.add("Access-Control-Request-Headers", "X-CUSTOM");
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+
+        return new ResponseEntity<>("", httpHeaders, HttpStatus.valueOf(200));
     }
 
     @PostMapping(value = "/registration")
