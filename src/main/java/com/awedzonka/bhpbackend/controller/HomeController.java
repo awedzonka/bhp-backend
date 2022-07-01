@@ -74,7 +74,7 @@ public class HomeController {
 
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Access-Control-Allow-Origin", "*");
+//         httpHeaders.add("Access-Control-Allow-Origin", "*");
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return httpHeaders;
     }
