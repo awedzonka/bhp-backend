@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class HomeController {
 
     private final GsonProvider gsonProvider;
@@ -47,19 +48,20 @@ public class HomeController {
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
-    @RequestMapping(path = "/registration", method = RequestMethod.OPTIONS)
-    public ResponseEntity<String> registrationOptions(@RequestBody String user) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Access-Control-Allow-Origin", "*");
-        httpHeaders.add("Access-Control-Request-Method", "POST");
-        httpHeaders.add("Access-Control-Allow-Methods", "POST");
-        httpHeaders.add("Access-Control-Allow-Headers", "X-CUSTOM");
-        httpHeaders.add("Access-Control-Request-Headers", "X-CUSTOM");
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//    @RequestMapping(path = "/registration", method = RequestMethod.OPTIONS)
+//    public ResponseEntity<String> registrationOptions(@RequestBody String user) {
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("Access-Control-Allow-Origin", "*");
+//        httpHeaders.add("Access-Control-Request-Method", "POST");
+//        httpHeaders.add("Access-Control-Allow-Methods", "POST");
+//        httpHeaders.add("Access-Control-Allow-Headers", "X-CUSTOM");
+//        httpHeaders.add("Access-Control-Request-Headers", "X-CUSTOM");
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//
+//
+//        return new ResponseEntity<>("", httpHeaders, HttpStatus.valueOf(200));
+//    }
 
-
-        return new ResponseEntity<>("", httpHeaders, HttpStatus.valueOf(200));
-    }
 
     @PostMapping(value = "/registration")
     public ResponseEntity<String> registrationPost(@RequestBody String user) {
