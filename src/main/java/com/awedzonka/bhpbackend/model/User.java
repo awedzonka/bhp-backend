@@ -70,6 +70,7 @@ public class User {
     @Column(length = 100, nullable = false, columnDefinition = "VARCHAR(100) NOT NULL")
     @Pattern(regexp = "^[a-zA-Z0-9]+[._\\-a-zA-Z0-9]*@[a-zA-Z0-9]+([.][a-z]+)+([.][a-z]+)?$", message = "Wprowadź prawidłowy adres email", groups = {RegistrationValidator.class, EditValidator.class})
     @Size(max = 100, message = "Maksymalnie 100 znaków", groups = {RegistrationValidator.class, EditValidator.class})
+    @NotEmpty(message = MESSAGE_NOT_BLANK, groups = RegistrationValidator.class)
     private String email;
 
     @Column(name = "passed")
