@@ -76,5 +76,12 @@ public class GeneralResponseFactory {
         return generalResponse;
 
     }
+
+    public GeneralResponse getRegistrationSuccessResponse() {
+        return new GeneralResponse(
+            new ContentPage("Dziękujemy za rejestrację konta", List.of(
+                "Teraz możesz zalogować się na Swoje konto"))
+        );
+    }
 }
 

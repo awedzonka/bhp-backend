@@ -72,6 +72,14 @@ public class HomeController {
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
+    @GetMapping(value = "/registration-success")
+    public ResponseEntity<String> registrationSuccess() {
+        loggerService.info("/registrationSuccess");
+        String message = gsonProvider.get().toJson(homeService.registrationSuccess());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
 //         httpHeaders.add("Access-Control-Allow-Origin", "*");

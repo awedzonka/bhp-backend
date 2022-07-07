@@ -26,4 +26,8 @@ public class HomeService {
     public GeneralResponse registrationPost(User user) {
         return generalResponseFactory.getRegistrationPostResponse(user);
     }
+
+    public GeneralResponse registrationSuccess() {
+        return generalResponseFactory.getRegistrationSuccessResponse();
+    }
 }

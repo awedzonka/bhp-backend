@@ -23,3 +23,6 @@ Content-Type: application/json
   "homeNumber": "15",
   "email": "test@email.pl"
 }
+
+### registrationSuccess
+GET http://localhost:8030/registration-success
