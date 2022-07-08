@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -76,6 +77,31 @@ public class HomeController {
     public ResponseEntity<String> registrationSuccess() {
         loggerService.info("/registrationSuccess");
         String message = gsonProvider.get().toJson(homeService.registrationSuccess());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> loginGet() {
+        loggerService.info("/loginGet");
+        String message = gsonProvider.get().toJson(homeService.loginGet());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginPost(@RequestBody String user) {
+        User userObject = gsonProvider.get().fromJson(user, User.class);
+        loggerService.info("/loginPost");
+        String message = gsonProvider.get().toJson(homeService.loginPost(userObject));
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @RequestMapping("/logout")
+    public ResponseEntity<String> logout(Model model) {
+        loggerService.info("/registrationSuccess");
+        String message = gsonProvider.get().toJson(homeService.logout());
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }

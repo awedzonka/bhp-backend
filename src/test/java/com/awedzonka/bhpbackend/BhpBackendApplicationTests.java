@@ -7,6 +7,7 @@ import com.awedzonka.bhpbackend.lib.LoggerService;
 import com.awedzonka.bhpbackend.redis.RedisBhpClient;
 import com.awedzonka.bhpbackend.session.CookieSession;
 import com.awedzonka.bhpbackend.session.CookieSessionProvider;
+import com.awedzonka.bhpbackend.session.SessionService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ class BhpBackendApplicationTests {
     EnvInterface envInterface;
     @Autowired
     CookieSessionProvider cookieSessionProvider;
+    @Autowired
+    SessionService sessionService;
 
     @Test
     void contextLoads() {
@@ -49,8 +52,8 @@ class BhpBackendApplicationTests {
     // docker-compose exec bhp-backend-java mvn -Dtest=BhpBackendApplicationTests#getCookieSession test
     @Test
     void getCookieSession() {
-        CookieSession cookieSession = cookieSessionProvider.getCookie();
-        loggerService.info(cookieSession.toString());
+        CookieSession session = sessionService.createSession();
+        loggerService.info(session.toString());
     }
 
 }

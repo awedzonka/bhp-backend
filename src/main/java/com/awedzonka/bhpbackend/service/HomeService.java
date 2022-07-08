@@ -30,4 +30,16 @@ public class HomeService {
     public GeneralResponse registrationSuccess() {
         return generalResponseFactory.getRegistrationSuccessResponse();
     }
+
+    public GeneralResponse loginGet() {
+        return generalResponseFactory.getLoginGetResponse();
+    }
+
+    public GeneralResponse loginPost(User user) {
+        return generalResponseFactory.getLoginPostResponse(user);
+    }
+
+    public GeneralResponse logout() {
+        return generalResponseFactory.logout();
+    }
 }

@@ -4,6 +4,8 @@ import com.awedzonka.bhpbackend.lib.ValidatorProvider;
 import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.service.generalresponse.GeneralResponse;
 import com.awedzonka.bhpbackend.service.generalresponse.fields.ContentPage;
+import com.awedzonka.bhpbackend.session.CookieSession;
+import com.awedzonka.bhpbackend.session.SessionService;
 import com.awedzonka.bhpbackend.validator.RegistrationValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class GeneralResponseFactory {
 
     private final UserService userService;
     private final ValidatorProvider validatorProvider;
+    private final SessionService sessionService;
 
     public GeneralResponse getHomePageResponse() {
         return new GeneralResponse(
@@ -82,6 +85,52 @@ public class GeneralResponseFactory {
             new ContentPage("Dziękujemy za rejestrację konta", List.of(
                 "Teraz możesz zalogować się na Swoje konto"))
         );
+    }
+
+    public GeneralResponse getLoginGetResponse() {
+        return new GeneralResponse(
+            new ContentPage("Logowanie", null));
+    }
+
+    public GeneralResponse getLoginPostResponse(User user) {
+        GeneralResponse generalResponse = new GeneralResponse(
+            new ContentPage("Logowanie", null));
+        generalResponse.getCustomer().getLogging().setStatusLogging(400);
+
+        String check = userService.checkLogin(user, generalResponse);
+        if (!"loginSuccess".equals(check)) {
+            return generalResponse;
+        }
+
+        // utworzyć sesje , dodać info, że zalogowany
+        CookieSession sessionBrowser = sessionService.createSession();
+        generalResponse.getCustomer().setCookieSession(sessionBrowser);
+
+
+//        model.addAttribute("loggedUser", true);
+//        userService.sessionStart(login);
+//
+//        if (userSession.getUserInSession().isSuperUser()) {
+//            model.addAttribute("admin", true);
+//
+//        }
+//
+//        model.addAttribute("firstName", userSession.getUserInSession().getFirstName());
+//        model.addAttribute("registration", true);
+//        model.addAttribute("message", "Zalogowałeś się. Zapoznaj się z materiałami szkoleniowymi, wykonaj test.");
+//
+
+        // zapisac w redisie dane usera
+
+        generalResponse.getCustomer().getLogging().setStatusLogging(200);
+        return generalResponse;
+
+    }
+
+    public GeneralResponse logout() {
+        // skasowac sesje
+        return new GeneralResponse(
+            new ContentPage("Wylogowałeś się", null));
     }
 }
 

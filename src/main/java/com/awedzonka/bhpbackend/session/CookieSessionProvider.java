@@ -14,8 +14,12 @@ public class CookieSessionProvider {
     private final HashCreator hashCreator;
     private final EnvInterface env;
 
-    public CookieSession getCookie() {
-        return new CookieSession(hashCreator.createSha256(getHashForSession()));
+    public RedisSession getSessionForRedis() {
+        return new RedisSession(hashCreator.createSha256(getHashForSession()), "{}");
+    }
+
+    public CookieSession getSessionForBrowser(String value) {
+        return new CookieSession(value);
     }
 
     private String getHashForSession() {
