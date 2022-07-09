@@ -24,6 +24,12 @@ public class RedisBhpClient {
         return result;
     }
 
+    public void setExpireTime(String key, long seconds) {
+        RedisConnection<String, String> connection = redisClient.connect();
+        connection.expire(key, seconds);
+        connection.close();
+    }
+
     public String getValue(String key) {
         RedisConnection<String, String> connection = redisClient.connect();
         String value = connection.get(key);

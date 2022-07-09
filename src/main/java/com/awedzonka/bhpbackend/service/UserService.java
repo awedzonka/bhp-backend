@@ -3,6 +3,7 @@ package com.awedzonka.bhpbackend.service;
 import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.model.UserSession;
 import com.awedzonka.bhpbackend.repository.UserRepository;
+import com.awedzonka.bhpbackend.service.generalresponse.GeneralResponse;
 import com.awedzonka.bhpbackend.utils.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,34 +83,28 @@ public class UserService {
     }
 
     // login
-    public String checkLogin(String login, String password, Model model) {
-        if (login.length() == 0) {
-            model.addAttribute("loginInvalid", true);
-            model.addAttribute("messageLogin", "Podaj login");
+    public String checkLogin(User user, GeneralResponse generalResponse) {
+        if (user.getLogin().length() == 0) {
+            generalResponse.getCustomer().getLogging().addError("login", "Podaj login");
             return "Podaj login";
         }
-        if (password.length() == 0) {
-            model.addAttribute("passInvalid", true);
-            model.addAttribute("messagePass", "Podaj hasło");
+        if (user.getPassword().length() == 0) {
+            generalResponse.getCustomer().getLogging().addError("password", "Podaj hasło");
             return "Podaj hasło";
         }
-        if (userRepository.countByLogin(login) == 0) {
-            model.addAttribute("loginInvalid", true);
-            model.addAttribute("messageLogin", "Błąd logowania, zły login lub hasło");
+        if (userRepository.countByLogin(user.getLogin()) == 0) {
+            generalResponse.getCustomer().getLogging().setGeneralErrorMessage("Błąd logowania, zły login lub hasło");
             return "Błąd logowania, zły login lub hasło";
         }
-        if (userRepository.countByLogin(login) > 1) {
-            model.addAttribute("loginInvalid", true);
-            model.addAttribute("messageLogin", "Duplikacja loginów, skontaktuj się w administratorem");
+        if (userRepository.countByLogin(user.getLogin()) > 1) {
+            generalResponse.getCustomer().getLogging().setGeneralErrorMessage("Duplikacja loginów, skontaktuj się w administratorem");
             return "Duplikacja loginów, skontaktuj się w administratorem";
         }
 
-        User user = userRepository.findUserByLogin(login);
-        if (!BCrypt.checkpw(password, user.getPassword())) {
-            model.addAttribute("loginInvalid", true);
-            model.addAttribute("messageLogin", "Błąd logowania, zły login lub hasło");
-            return "Podaj prawidłowe hasło";
-
+        User userInDatabase = userRepository.findUserByLogin(user.getLogin());
+        if (!BCrypt.checkpw(user.getPassword(), userInDatabase.getPassword())) {
+            generalResponse.getCustomer().getLogging().setGeneralErrorMessage("Błąd logowania, zły login lub hasło");
+            return "Błąd logowania, zły login lub hasło";
         }
 
         return "loginSuccess";

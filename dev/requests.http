@@ -26,3 +26,18 @@ Content-Type: application/json
 
 ### registrationSuccess
 GET http://localhost:8030/registration-success
+
+### login
+GET http://localhost:8030/login
+
+### Post login
+POST http://localhost:8030/login
+Content-Type: application/json
+
+{
+  "login": "krowa1",
+  "password": "123123"
+}
+
+### logout
+GET http://localhost:8030/logout
