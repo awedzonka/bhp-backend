@@ -22,7 +22,7 @@ public class CookieSessionProvider {
     public RedisSession createSessionForRedis(User user) {
         RedisSession sessionForRedis = new RedisSession(hashCreator.createSha256(getHashForSession()), gsonProvider.get().toJson(new SessionCustomerData(user)));
         redisBhpClient.setKey(sessionForRedis.getHashKey(), sessionForRedis.getValue());
-        redisBhpClient.setExpireTime(sessionForRedis.getHashKey(), 30);
+        redisBhpClient.setExpireTime(sessionForRedis.getHashKey(), 300);
         return sessionForRedis;
     }
 

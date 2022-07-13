@@ -41,3 +41,8 @@ Content-Type: application/json
 
 ### logout
 GET http://localhost:8030/logout
+
+### getSessionData
+# Wartosc ciasteczka z przegladarki
+GET http://localhost:8030/getSessionData
+BHP_SID: 422753c439034e4d87ed44c2372d4580ef1d8c6753a92fcb544715fd7d991f22

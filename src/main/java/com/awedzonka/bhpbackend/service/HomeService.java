@@ -1,7 +1,9 @@
 package com.awedzonka.bhpbackend.service;
 
 import com.awedzonka.bhpbackend.model.User;
+import com.awedzonka.bhpbackend.redis.RedisBhpClient;
 import com.awedzonka.bhpbackend.service.generalresponse.GeneralResponse;
+import com.awedzonka.bhpbackend.session.SessionCustomerData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class HomeService {
 
     private final GeneralResponseFactory generalResponseFactory;
+    private final RedisBhpClient redisBhpClient;
 
     public GeneralResponse homePage() {
         return generalResponseFactory.getHomePageResponse();
@@ -41,5 +44,9 @@ public class HomeService {
 
     public GeneralResponse logout() {
         return generalResponseFactory.logout();
+    }
+
+    public String getSessionData(String BHP_SID) {
+        return redisBhpClient.getValue(BHP_SID);
     }
 }

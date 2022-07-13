@@ -2,7 +2,6 @@ package com.awedzonka.bhpbackend.controller;
 
 import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
-import com.awedzonka.bhpbackend.lib.Sleep;
 import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.service.HomeService;
 import lombok.RequiredArgsConstructor;
@@ -102,6 +101,14 @@ public class HomeController {
     public ResponseEntity<String> logout(Model model) {
         loggerService.info("/registrationSuccess");
         String message = gsonProvider.get().toJson(homeService.logout());
+        loggerService.info(message);
+        return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
+    }
+
+    @GetMapping("getSessionData")
+    public ResponseEntity<String> getSessionData(@RequestHeader(value = "BHP_SID", defaultValue = "0") String BHP_SID) {
+        loggerService.info("/getSessionData");
+        String message = homeService.getSessionData(BHP_SID);
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
