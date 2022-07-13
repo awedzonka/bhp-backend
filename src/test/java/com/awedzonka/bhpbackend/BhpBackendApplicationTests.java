@@ -3,7 +3,9 @@ package com.awedzonka.bhpbackend;
 import com.awedzonka.bhpbackend.config.BhpBackendApplication;
 import com.awedzonka.bhpbackend.env.EnvDictionary;
 import com.awedzonka.bhpbackend.env.EnvInterface;
+import com.awedzonka.bhpbackend.lib.GsonProvider;
 import com.awedzonka.bhpbackend.lib.LoggerService;
+import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.redis.RedisBhpClient;
 import com.awedzonka.bhpbackend.session.CookieSession;
 import com.awedzonka.bhpbackend.session.CookieSessionProvider;
@@ -30,6 +32,8 @@ class BhpBackendApplicationTests {
     CookieSessionProvider cookieSessionProvider;
     @Autowired
     SessionService sessionService;
+    @Autowired
+    GsonProvider gsonProvider;
 
     @Test
     void contextLoads() {
@@ -52,8 +56,17 @@ class BhpBackendApplicationTests {
     // docker-compose exec bhp-backend-java mvn -Dtest=BhpBackendApplicationTests#getCookieSession test
     @Test
     void getCookieSession() {
-        CookieSession session = sessionService.createSession();
+        String user = """
+            {
+              "login": "krowa1",
+              "password": "123123"
+            }
+            """;
+
+        CookieSession session = sessionService.createSession(gsonProvider.get().fromJson(user, User.class));
         loggerService.info(session.toString());
+        loggerService.info(redisBhpClient.getValue(session.getValue()));
+
     }
 
 }

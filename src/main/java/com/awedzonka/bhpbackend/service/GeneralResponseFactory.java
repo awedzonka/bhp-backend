@@ -1,7 +1,9 @@
 package com.awedzonka.bhpbackend.service;
 
+import com.awedzonka.bhpbackend.lib.LoggerService;
 import com.awedzonka.bhpbackend.lib.ValidatorProvider;
 import com.awedzonka.bhpbackend.model.User;
+import com.awedzonka.bhpbackend.repository.UserRepository;
 import com.awedzonka.bhpbackend.service.generalresponse.GeneralResponse;
 import com.awedzonka.bhpbackend.service.generalresponse.fields.ContentPage;
 import com.awedzonka.bhpbackend.session.CookieSession;
@@ -18,6 +20,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GeneralResponseFactory {
 
+private final LoggerService loggerService;
+    private final UserRepository userRepository;
     private final UserService userService;
     private final ValidatorProvider validatorProvider;
     private final SessionService sessionService;
@@ -103,7 +107,10 @@ public class GeneralResponseFactory {
         }
 
         // utworzyć sesje , dodać info, że zalogowany
-        CookieSession sessionBrowser = sessionService.createSession();
+        User userByLogin = userRepository.findUserByLogin(user.getLogin());
+        loggerService.info(userByLogin.toString());
+
+        CookieSession sessionBrowser = sessionService.createSession(userByLogin);
         generalResponse.getCustomer().setCookieSession(sessionBrowser);
 
 

@@ -1,5 +1,6 @@
 package com.awedzonka.bhpbackend.session;
 
+import com.awedzonka.bhpbackend.model.User;
 import com.awedzonka.bhpbackend.redis.RedisBhpClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,8 @@ public class SessionService {
     private final CookieSessionProvider cookieSessionProvider;
     private final RedisBhpClient redisBhpClient;
 
-    public CookieSession createSession() {
-        RedisSession sessionForRedis = cookieSessionProvider.getSessionForRedis();
-        CookieSession sessionForBrowser = cookieSessionProvider.getSessionForBrowser(sessionForRedis.getHashKey());
-
-        redisBhpClient.setKey(sessionForRedis.getHashKey(), sessionForRedis.getValue());
-        redisBhpClient.setExpireTime(sessionForRedis.getHashKey(), 30);
-
-        return sessionForBrowser;
+    public CookieSession createSession(User user) {
+        RedisSession sessionForRedis = cookieSessionProvider.createSessionForRedis(user);
+        return cookieSessionProvider.createSessionForBrowser(sessionForRedis.getHashKey());
     }
 }
