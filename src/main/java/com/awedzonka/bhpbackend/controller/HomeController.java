@@ -27,7 +27,7 @@ public class HomeController {
         loggerService.info("/homePage");
         String message = gsonProvider.get().toJson(homeService.homePage());
         loggerService.info(message);
-        new Sleep().run(1500);
+//         new Sleep().run(1500);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
 
