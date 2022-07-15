@@ -109,6 +109,9 @@ public class HomeController {
     public ResponseEntity<String> getSessionData(@RequestHeader(value = "BHP_SID", defaultValue = "0") String BHP_SID) {
         loggerService.info("/getSessionData");
         String message = homeService.getSessionData(BHP_SID);
+        if (null == message){
+            message = "{}";
+        }
         loggerService.info(message);
         return new ResponseEntity<>(message, buildHeaders(), HttpStatus.valueOf(200));
     }
