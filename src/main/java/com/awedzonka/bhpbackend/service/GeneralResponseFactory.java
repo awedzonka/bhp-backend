@@ -20,7 +20,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GeneralResponseFactory {
 
-private final LoggerService loggerService;
+    private final LoggerService loggerService;
     private final UserRepository userRepository;
     private final UserService userService;
     private final ValidatorProvider validatorProvider;
@@ -137,7 +137,8 @@ private final LoggerService loggerService;
     public GeneralResponse logout() {
         // skasowac sesje
         return new GeneralResponse(
-            new ContentPage("Wylogowałeś się", null));
+            new ContentPage("Wylogowałeś się", List.of(
+                "Dziekujemy za wizytę")));
     }
 }
 
