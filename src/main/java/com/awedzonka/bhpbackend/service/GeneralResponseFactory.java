@@ -101,6 +101,12 @@ public class GeneralResponseFactory {
             new ContentPage("Logowanie", null));
         generalResponse.getCustomer().getLogging().setStatusLogging(400);
 
+        if (user.getLogin() == null || user.getPassword() == null) {
+            generalResponse.getCustomer().getLogging().setGeneralErrorMessage("Wpisz login i hasło");
+
+            return generalResponse;
+        }
+
         String check = userService.checkLogin(user, generalResponse);
         if (!"loginSuccess".equals(check)) {
             return generalResponse;
