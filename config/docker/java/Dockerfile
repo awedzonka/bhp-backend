@@ -10,8 +10,8 @@ WORKDIR /var/www/bhp-backend
 RUN mkdir /home/vagrant
 
 # Add user vagrant
-RUN adduser -u 0 vagrant
+RUN #adduser -u 0 vagrant
 
-RUN chown vagrant:vagrant /home/vagrant
+RUN #chown vagrant:vagrant /home/vagrant
 
-USER vagrant
+#USER vagrant
